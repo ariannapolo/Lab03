@@ -63,7 +63,8 @@ public class SpellCheckerController {
     	int num = 0;
     	String[] inputArray =txtInput.getText().toLowerCase().replaceAll("[\\p{Punct}]","").split(" ");
     	List<String> input = new ArrayList<String>(Arrays.asList(inputArray));
-    	List<RichWord> l = d.spellCheckText(input);
+    	//List<RichWord> l = d.spellCheckText(input);
+    	List<RichWord> l = d.spellCheckTextDicotomy(input);
     	for(RichWord r : l){
     		if(!r.isCorretta()){
     			txtResult.appendText(r.getParola()+"\n");
@@ -72,7 +73,7 @@ public class SpellCheckerController {
     		}
     	lblResult.setText("The text contains "+num+" errors");
     	Long t2 = System.nanoTime();
-    	lblTime.setText("Spell Check completed in "+(t2-t1)+" seconds");
+    	lblTime.setText("Spell Check completed in "+(t2-t1)/1e9+" seconds");
 
     }
 

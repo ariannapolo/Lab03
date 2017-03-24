@@ -2,14 +2,15 @@ package it.polito.tdp.spellchecker.model;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Dictionary { //e' il model
-	private List<RichWord> dictionary;
+	private List<String> dictionary;
 	
 	
 	public Dictionary(){
-		dictionary = new ArrayList<RichWord>();
+		dictionary = new ArrayList<String>();
 		
 	}
 		public void loadDictionary(String language){
@@ -24,8 +25,8 @@ public class Dictionary { //e' il model
 				BufferedReader b = new BufferedReader(f);
 				String word;
 				while((word = b.readLine())!=null){
-					RichWord r = new RichWord(word.toLowerCase().trim(), true);
-					dictionary.add(r);
+					//RichWord r = new RichWord(word.toLowerCase().trim(), true);
+					dictionary.add(word.toLowerCase().trim());
 						
 					}
 				f.close();
@@ -42,7 +43,7 @@ public class Dictionary { //e' il model
 		List<RichWord> l = new ArrayList<RichWord>();
 		for(String s : inputTextList){
 			RichWord r;
-			if(dictionary.contains(new RichWord(s, false)))
+			if(dictionary.contains(s))
 				r = new RichWord(s, true);
 			else
 				r = new RichWord(s, false);
@@ -55,11 +56,45 @@ public class Dictionary { //e' il model
 		
 	}
 	
+	
+	
 	public List<RichWord> spellCheckTextDicotomy(List<String> inputTextList){
-		dictionary.get(dictionary.size()/2);
-		return null;
+		List<RichWord> l = new ArrayList<RichWord>();
+		Collections.sort(dictionary);
+		for(String s : inputTextList){
+			RichWord r;
+			boolean trovato = false;
+			int posI = 0;
+			int posF = dictionary.size()-1;
+			int posC =(int) ((posF+posI)/2);
+			while(trovato == false && posI <= posF){
+				if(s.toLowerCase().compareTo(dictionary.get(posC))==0){
+					//r = new RichWord(s, true);
+					trovato = true;
+				}
+				else{ if(s.toLowerCase().compareTo(dictionary.get(posC))>0){
+					posI = posC+1;
+					posC = (int) ((posF+posI)/2);
+					//System.out.println(posI+" "+posF);
+				}else{
+					posF = posC-1;
+					posC = (int)((posF+posI)/2);
+					
+				}
+				}
+				//System.out.println(posI+" ("+dictionary.get(posI)+") ("+dictionary.get(posF)+") "+posF);
+			}
+			
+			if(trovato){
+				r = new RichWord(s, true);
+			}else
+				r= new RichWord(s, false);
+			//System.out.println(r.getParola()+" "+r.isCorretta());
+			l.add(r);	
+			
+		}
+		
+		return l;
 	}
-	
-	
-
+			
 }
