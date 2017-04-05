@@ -47,9 +47,7 @@ public class Dictionary { //e' il model
 				r = new RichWord(s, true);
 			else
 				r = new RichWord(s, false);
-			l.add(r);
-			//System.out.println(r.getParola()+" "+r.isCorretta());
-				
+			l.add(r);	
 		}
 			
 		return l;
@@ -68,28 +66,25 @@ public class Dictionary { //e' il model
 			int posF = dictionary.size()-1;
 			int posC =(int) ((posF+posI)/2);
 			while(trovato == false && posI <= posF){
-				if(s.toLowerCase().compareTo(dictionary.get(posC))==0){
-					//r = new RichWord(s, true);
+				if(s.compareTo(dictionary.get(posC))==0){
 					trovato = true;
 				}
-				else{ if(s.toLowerCase().compareTo(dictionary.get(posC))>0){
+				else{ if(s.compareTo(dictionary.get(posC))>0){
 					posI = posC+1;
 					posC = (int) ((posF+posI)/2);
-					//System.out.println(posI+" "+posF);
+					
 				}else{
 					posF = posC-1;
 					posC = (int)((posF+posI)/2);
 					
 				}
 				}
-				//System.out.println(posI+" ("+dictionary.get(posI)+") ("+dictionary.get(posF)+") "+posF);
 			}
 			
 			if(trovato){
 				r = new RichWord(s, true);
 			}else
 				r= new RichWord(s, false);
-			//System.out.println(r.getParola()+" "+r.isCorretta());
 			l.add(r);	
 			
 		}
